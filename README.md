@@ -77,3 +77,43 @@ Simply include the script on the launch token page:
 ```
 
 The form population will happen automatically when the page loads with the appropriate URL parameters.
+
+Key Additions
+
+1.  Allowed Domains List:
+    • allowedDomains is an array of domains (e.g., ["memeos.ai"]).
+    • Subdomains are automatically supported using referrerDomain.endsWith(domain).
+2.  isReferrerAllowed Function:
+    • Extracts the domain from document.referrer using the URL object.
+    • Checks if the domain matches any entry in allowedDomains.
+3.  Referrer Restriction:
+    • The script only runs if the isReferrerAllowed function returns true.
+    • If the referrer is invalid, unavailable, or not allowed, the script stops execution and logs a warning.
+
+How It Works
+
+• Valid Referrer:
+If the document.referrer is from a domain or subdomain listed in allowedDomains, the script proceeds to populate the form and upload the image.
+• Invalid or No Referrer:
+If the document.referrer is missing, invalid, or from an unlisted domain, the script halts and logs a warning.
+
+Example Scenarios
+
+1.  Referrer: https://app.memeos.ai
+    • Allowed: The script executes because app.memeos.ai ends with memeos.ai.
+2.  Referrer: https://external-site.com
+    • Blocked: The script logs Referrer is not allowed and stops execution.
+3.  No Referrer (e.g., Direct Visit or Bookmark):
+    • Blocked: The script logs Referrer is not valid or unavailable.
+
+Notes
+
+• Testing:
+You can simulate different referrers by modifying the document.referrer in the browser console (not allowed in production environments).
+
+Object.defineProperty(document, 'referrer', { value: 'https://app.memeos.ai', configurable: true });
+
+• Caveats:
+Referrer data may not be available in all scenarios (e.g., direct visits or strict browser privacy settings).
+• Security:
+This method is not foolproof. For sensitive use cases, server-side validation is recommended.
