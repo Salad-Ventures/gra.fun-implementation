@@ -44,14 +44,15 @@ Creates a complete meme coin concept based on a trend.
   "name": "string",
   "tokenSymbol": "string",
   "description": "string",
-  "imageUrl": "string"
+  "imageUrl": "string",
+  "coreLeft": "string"
 }
 ```
 
 #### Example Request
 
 ```bash
-curl -X POST https://start.memeos.ai/v1/api/generate-meme-coin \
+curl -X POST https://start.memeos.ai/api/v1/generate-meme-coin \
   -H "Content-Type: application/json" \
   -H "x-api-key: your_api_key" \
   -d '{
@@ -67,7 +68,8 @@ curl -X POST https://start.memeos.ai/v1/api/generate-meme-coin \
   "name": "AIpha",
   "tokenSymbol": "AIF",
   "description": "The first memecoin powered by artificial intelligence, combining viral memes with machine learning for maximum gains!",
-  "imageUrl": "https://storage.memeos.ai/meme-coins/aipha-1234567890.png"
+  "imageUrl": "https://storage.memeos.ai/meme-coins/aipha-1234567890.png",
+  "coreLeft": "999,999"
 }
 ```
 
@@ -77,7 +79,14 @@ curl -X POST https://start.memeos.ai/v1/api/generate-meme-coin \
 | ----------- | ---------------------------------- |
 | 400         | Missing required field (trendName) |
 | 401         | Invalid or missing API key         |
+| 403         | CORE limit exceeded                |
 | 500         | Server error during generation     |
+
+## Rate Limiting and Usage
+
+- Each API key has a CORE limit for meme coin generation
+- The `coreLeft` field in the response shows remaining credits
+- One meme coin generation consumes one CORE credit
 
 ## Best Practices
 
